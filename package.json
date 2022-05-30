@@ -1,5 +1,5 @@
 {
-  "name": "blockchain-cli",
+  "name": "@shixm/blockchain-cli",
   "version": "1.0.0",
   "description": "",
   "bin": {
