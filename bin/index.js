@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+const fs = require("fs");
+const path = require("path");
+
 const program = require("commander");
 const { create } = require("../lib/api");
 const packages = require("../package");
@@ -17,7 +20,14 @@ program.option("-v, --version", "查看版本号").action((options, command) => 
 program
   .command("create <project-name>") // 创建项目
   .description("创建新项目")
+  .option("-f, --force", "Overwrite target directory if it exists")
   .action(async (name) => {
-    create(name);
+    const targetDir = path.resolve(process.cwd(), name);
+    if (fs.existsSync(targetDir)) {
+      const chalk = await (await import("chalk")).default;
+      console.log(`Target directory ${chalk.cyan(targetDir)} already exists.`);
+    } else {
+      create(name);
+    }
   });
 program.parse(process.argv);
